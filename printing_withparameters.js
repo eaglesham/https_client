@@ -2,8 +2,6 @@ var https = require('https');
 
 function getAndPrintHTML (options) {
 
-  options = requestOptions;
-
   var dataBuffer = {};
 
   https.get(options, function(response) {

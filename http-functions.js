@@ -2,35 +2,29 @@ var https = require('https');
 
 module.exports = function getHTML (options, callback) {
 
-  function getHTML (options, callback) {
+  var dataBuffer = {};
 
-    options = requestOptions;
+  https.get(options, function(response) {
 
-    var dataBuffer = {};
+    response.setEncoding('utf8');
 
-    https.get(options, function(response) {
-
-      response.setEncoding('utf8');
-
-      response.on('data', function(data) {
-        console.log('Chunk received. Length:', data.length);
-        dataBuffer += data;
-      });
-
-      response.on('end', function() {
-        callback(dataBuffer);
-      });
+    response.on('data', function(data) {
+      console.log('Chunk received. Length:', data.length);
+      dataBuffer += data;
     });
-  };
 
-  function printHTML (html) {
-    console.log(html);
-  }
+    response.on('end', function() {
+      callback(dataBuffer);
+    });
+  });
+};
 
-  var requestOptions = {
-    host: 'sytantris.github.io',
-    path: '/http-examples/step4.html'
-  };
-
-  getHTML(requestOptions, printHTML);
+function printHTML (html) {
+  console.log(html);
 }
+
+var requestOptions = {
+  host: 'sytantris.github.io',
+  path: '/http-examples/step4.html'
+};
+
